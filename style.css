@@ -1,0 +1,238 @@
+
+body {
+    padding-top: 51px;
+    background: #06357a;
+}
+
+h2 {
+    color: white;
+}
+
+.text-center {
+    padding-top: 20px;
+}
+
+.col-xs-12 {
+    background-color: rgba(255, 255, 255, 0);
+    margin-top: 5%;
+}
+
+#sidebar {
+    height: 100%;
+    padding-right: 0;
+    padding-top: 20px;
+}
+
+#sidebar .nav {
+    width: 95%;
+}
+
+#sidebar li {
+    border: 0 #f2f2f2 solid;
+    border-bottom-width: 1px;
+}
+
+/* collapsed sidebar styles */
+
+@media screen and (max-width: 767px) {
+    .row-offcanvas {
+        position: relative;
+        -webkit-transition: all 0.25s ease-out;
+        -moz-transition: all 0.25s ease-out;
+        transition: all 0.25s ease-out;
+    }
+
+    .row-offcanvas-right
+    .sidebar-offcanvas {
+        right: -41.6%;
+    }
+
+    .row-offcanvas-left
+    .sidebar-offcanvas {
+        left: -41.6%;
+    }
+
+    .row-offcanvas-right.active {
+        right: 41.6%;
+    }
+
+    .row-offcanvas-left.active {
+        left: 41.6%;
+    }
+
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 41.6%;
+    }
+
+    #sidebar {
+        padding-top: 0;
+    }
+}
+
+.imga {
+    float: left;
+    width: 35%;
+}
+
+.h3 {
+}
+
+.h1 {
+}
+
+.h1 {
+    margin-left: 30%;
+    margin-top: 18%;
+    font-size: 2em;
+    padding-left: 13%;
+    color: #ffffff;
+}
+
+@media (max-width: 350px) {
+    .h1 {
+        font-size: 18px;
+        padding-left: 28%;
+    }
+}
+
+@media (max-width: 760px) {
+    .btnl {
+        font-size: 18px;
+        float: right;
+    }
+}
+
+.h2 {
+    float: left;
+    display: inline-block;
+    color: #ffffff;
+    font-size: 1em;
+}
+
+.imgl {
+    width: 50%;
+    float: left;
+    margin-bottom: 20%;
+}
+
+.btnl {
+    margin-top: 8%;
+    background: #06357a;
+    left: 45%;
+    font-size: 12px;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .btnl {
+        float: right;
+        margin-right: 51%;
+    }
+}
+
+@media (min-width: 776px) {
+    .btnl {
+        float: right;
+        margin-right: -79%;
+    }
+}
+
+@media (min-width: 600) {
+    body {
+        max-width: 50%;
+        margin-left: 25%;
+    }
+}
+
+@media (max-width: 1199px) {
+    .imgl {
+        width: 72%;
+    }
+}
+
+.row.hover {
+    background-color: #fdb913;
+}
+
+.container-transfers {
+    margin-top: 10%;
+}
+
+.imgg {
+    width: 100%;
+}
+
+.img-responsivee {
+    width: 50%;
+    margin-left: 25%;
+}
+
+.aa {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.profile {
+    background-image: url('../Wallpapers/vpagbp9n3fi-steven-estes.jpg');
+}
+
+.log {
+    color: #fdb913;
+    font-size: 2em;
+}
+
+.h4 {
+    color: #ffffff;
+    font-size: 1em;
+}
+
+.buttonn {
+    background-color: #fdb913;
+    color: #06357a;
+}
+
+.t {
+    color: #ffffff;
+    font-size: 2em;
+}
+
+.pp {
+    color: #ffffff;
+    font-size: 1em;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .btn {
+        background-color: #fdb913;
+    }
+}
+
+.marginimg {
+    margin-left: 20%;
+    display: block;
+}
+
+.name {
+    margin-left: 35%;
+    font-size: 2em;
+    color: #ffffff;
+}
+
+.footer-1-4 {
+    margin-left: 12%;
+    margin-top: 7%;
+}
+
+#divLoading.show {
+    display: block;
+    position: fixed;
+    z-index: 9999;
+    opacity: 0.9;
+    background: #ffffff url('spinner.gif') no-repeat center;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+}

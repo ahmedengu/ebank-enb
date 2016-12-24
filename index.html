@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ENBApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ENB</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="bootstrap/css/hover.css" rel="stylesheet" type="text/css">
+    <link href="bootstrap/css/hover-min.css" rel="stylesheet" type="text/css">
+    <link href="bootstrap/css/hover.css.map" rel="stylesheet" type="text/css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-sanitize.min.js"></script>
+    <script src="//npmcdn.com/parse/dist/parse.min.js"></script>
+    <script src="main.js"></script>
+</head>
+<body class="b">
+<div id="divLoading" class="show"></div>
+<section class="content-block content-2-3 bg-transparent" wp-cz-section="blocks_content_2_3"
+         wp-cz-section-title="Content 2-3">
+    <div class="container">
+        <div class="col-sm-7 pull-left">
+            <img src="Emirates_NBD_logo.png" class="img-responsive imgl" data-target="index.html">
+            <span class="input-group-btn span"><a class="btn btn-primary btnl" type="button"
+                                                  ng-click="logout()" ng-show="currentUser">Logout</a></span>
+        </div>
+    </div>
+</section>
+<div class="page-container">
+    <div ng-view></div>
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
