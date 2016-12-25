@@ -25,6 +25,9 @@ app.config(function ($routeProvider) {
     }).when("/transfers", {
         templateUrl: "views/transfers.html",
         controller: "transfersCtrl"
+    }).when("/newTransfer", {
+        templateUrl: "views/newTransfer.html",
+        controller: "newTransferCtrl"
     }).when("/signup", {
         templateUrl: "views/signup.html",
         controller: "signupCtrl"
@@ -53,10 +56,12 @@ app.run(function ($rootScope, $location) {
         $("html, body").stop().animate({scrollTop: 0}, '100', 'swing');
     });
 });
-
+function currentUser() {
+    return Parse.User.current();
+}
 app.controller('indexCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'ENB';
-    if (!$rootScope.currentUser)
+    if (!currentUser())
         $location.path('/login');
     hideSpinner();
 });
@@ -77,12 +82,12 @@ app.controller('paymentsCtrl', function ($scope, $location, $rootScope, $routePa
 });
 app.controller('profileCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'profile';
-    if (!$rootScope.currentUser)
+    if (!currentUser())
         $location.path('/');
 
     var query = new Parse.Query(Parse.User);
     query.include('accountType');
-    query.get($rootScope.currentUser.id, {
+    query.get(currentUser().id, {
         success: function (user) {
             $scope.accountType = user.get('accountType');
             $scope.$apply();
@@ -94,9 +99,10 @@ app.controller('profileCtrl', function ($scope, $location, $rootScope, $routePar
         }
     });
 });
+
 app.controller('editProfileCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'Edit Profile';
-    if (!$rootScope.currentUser)
+    if (!currentUser())
         $location.path('/');
 
     var AccountTypes = Parse.Object.extend("AccountTypes");
@@ -104,7 +110,7 @@ app.controller('editProfileCtrl', function ($scope, $location, $rootScope, $rout
     query.find({
         success: function (results) {
             $scope.accounts = angular.copy(results);
-            var user = $rootScope.currentUser;
+            var user = currentUser();
             $scope.username = user.get('username');
             $scope.fullname = user.get('name');
             $scope.address = user.get('address');
@@ -122,7 +128,7 @@ app.controller('editProfileCtrl', function ($scope, $location, $rootScope, $rout
     });
 
     $scope.save = function () {
-        var user = $rootScope.currentUser;
+        var user = currentUser();
         if ($scope.username != user.get('username'))
             user.set("username", $scope.username);
         if ($scope.password)
@@ -165,13 +171,80 @@ app.controller('servicesCtrl', function ($scope, $location, $rootScope, $routePa
 app.controller('transfersCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'transfers';
 
+    $scope.showReason = function (index) {
+        alert($scope.results[index].get('reason'))
+    };
+
+    var fromQuery = new Parse.Query("Transfers");
+    fromQuery.equalTo("from", currentUser());
+
+    var toQuery = new Parse.Query("Transfers");
+    toQuery.equalTo("to", currentUser());
+
+    var query = Parse.Query.or(fromQuery, toQuery);
+    query.include('from');
+    query.include('to');
+    query.descending('createdAt');
+    query.find({
+        success: function (results) {
+            $scope.results = angular.copy(results);
+            $scope.$apply();
+            hideSpinner();
+        },
+        error: function (error) {
+            alert("Error: " + error.code + " " + error.message);
+            hideSpinner();
+        }
+    });
+});
+
+app.controller('newTransferCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'New Transfer';
+
     hideSpinner();
+
+    $scope.send = function () {
+        showSpinner();
+        var query = new Parse.Query(Parse.User);
+        query.equalTo("username", $scope.to);
+        query.find({
+            success: function (result) {
+                if (result.length == 0) {
+                    alert("To Not Found");
+                    hideSpinner();
+                    return;
+                }
+
+                var Transfers = Parse.Object.extend("Transfers");
+                var transfer = new Transfers();
+                transfer.set('from', currentUser());
+                transfer.set('to', result[0]);
+                transfer.set('amount', $scope.amount);
+                transfer.set('reason', $scope.reason);
+                transfer.save({
+                    success: function (result) {
+                        hideSpinner();
+                        $location.path('/transfers');
+                        $scope.$apply();
+                    },
+                    error: function (result, error) {
+                        hideSpinner();
+                        alert("Error: " + error.code + " " + error.message);
+                    }
+                });
+            },
+            error: function (result, error) {
+                hideSpinner();
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
 });
 
 app.controller('loginCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'login';
 
-    if ($rootScope.currentUser)
+    if (currentUser())
         $location.path('/');
     hideSpinner();
 
@@ -182,10 +255,10 @@ app.controller('loginCtrl', function ($scope, $location, $rootScope, $routeParam
         }
         showSpinner();
         Parse.User.logIn($scope.username, $scope.password, {
-            success: function (user) {
+            success: function (result) {
                 location.reload();
             },
-            error: function (user, error) {
+            error: function (result, error) {
                 hideSpinner();
                 alert("Error: " + error.code + " " + error.message);
             }
@@ -196,10 +269,9 @@ app.controller('loginCtrl', function ($scope, $location, $rootScope, $routeParam
 app.controller('signupCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'signup';
 
-    if ($rootScope.currentUser)
+    if (currentUser())
         $location.path('/');
-    var AccountTypes = Parse.Object.extend("AccountTypes");
-    var query = new Parse.Query(AccountTypes);
+    var query = new Parse.Query(Parse.Object.extend("AccountTypes"));
     query.find({
         success: function (results) {
             $scope.accounts = angular.copy(results);
