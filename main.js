@@ -35,6 +35,7 @@ app.config(function ($routeProvider) {
 app.run(function ($rootScope, $location) {
     Parse.initialize("Fb58iNlAeATKExIradyAJWVSBoL3mLRMQj4ub5Ld", "h1GnoGSjBenm2BQ2MtxYa4ZKROrA2CcCVhooFWW7");
     Parse.serverURL = 'https://parseapi.back4app.com';
+    $rootScope.title = 'ENB';
     $rootScope.currentUser = Parse.User.current();
     $rootScope.logout = function () {
         showSpinner();
@@ -46,30 +47,45 @@ app.run(function ($rootScope, $location) {
 });
 
 app.controller('indexCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'ENB';
     if (!$rootScope.currentUser)
         $location.path('/login');
     hideSpinner();
 });
 app.controller('accountsCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'accounts';
+
     hideSpinner();
 });
 app.controller('loansCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'loans';
+
     hideSpinner();
 });
 app.controller('paymentsCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'payments';
+
     hideSpinner();
 });
 app.controller('profileCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'profile';
+
     hideSpinner();
 });
 app.controller('servicesCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'services';
+
     hideSpinner();
 });
 app.controller('transfersCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'transfers';
+
     hideSpinner();
 });
 
 app.controller('loginCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'login';
+
     if ($rootScope.currentUser)
         $location.path('/');
     hideSpinner();
@@ -93,6 +109,8 @@ app.controller('loginCtrl', function ($scope, $location, $rootScope, $routeParam
 });
 
 app.controller('signupCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'signup';
+
     if ($rootScope.currentUser)
         $location.path('/');
     hideSpinner();

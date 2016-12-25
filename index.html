@@ -16,6 +16,7 @@
     <link href="bootstrap/css/hover.css" rel="stylesheet" type="text/css">
     <link href="bootstrap/css/hover-min.css" rel="stylesheet" type="text/css">
     <link href="bootstrap/css/hover.css.map" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.min.js"></script>
@@ -29,8 +30,10 @@
     <div class="container">
         <div class="col-sm-7 pull-left">
             <a href=".#!/"><img src="Emirates_NBD_logo.png" class="img-responsive imgl"></a>
-            <span class="input-group-btn span"><a class="btn btn-primary btnl" type="button"
-                                                  ng-click="logout()" ng-show="currentUser">Logout</a></span>
+            <span class="input-group-btn span"><a href=".#!/profile" class="btnl"><i class="fa fa-user-circle"
+                                                                                     style="font-size: x-large;color: white"></i></a><a
+                    class="btn btn-primary btnl" type="button"
+                    ng-click="logout()" ng-show="currentUser">Logout</a></span>
         </div>
     </div>
 </section>
