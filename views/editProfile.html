@@ -1,5 +1,5 @@
 <div class="container">
-    <form ng-submit="signup()">
+    <form ng-submit="save()">
         <input type="file" id="pic">
         <input type="text" placeholder="Username" ng-model="username">
         <input type="text" placeholder="Full Name" ng-model="fullname">
@@ -8,7 +8,6 @@
         <input type="password" placeholder="Password" ng-model="password">
         <select ng-options="accounts.indexOf(account) as account.get
          ('name') for account in accounts" ng-model="accountType"></select>
-        <input type="submit" value="Signup">
+        <input type="submit" value="Save">
     </form>
-    <a href=".#!/login">login</a>
 </div>

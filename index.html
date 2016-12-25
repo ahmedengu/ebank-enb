@@ -30,10 +30,11 @@
     <div class="container">
         <div class="col-sm-7 pull-left">
             <a href=".#!/"><img src="Emirates_NBD_logo.png" class="img-responsive imgl"></a>
-            <span class="input-group-btn span"><a href=".#!/profile" class="btnl"><i class="fa fa-user-circle"
-                                                                                     style="font-size: x-large;color: white"></i></a><a
-                    class="btn btn-primary btnl" type="button"
-                    ng-click="logout()" ng-show="currentUser">Logout</a></span>
+            <span class="input-group-btn span" ng-show="currentUser"><span class="btnl">
+                <a href=".#!/profile"><i class="fa fa-user-circle"
+                                         style="font-size: xx-large;color: white;margin-right: 10px;"></i></a>
+                <a class="btn btn-primary" type="button"
+                   ng-click="logout()">Logout</a></span></span>
         </div>
     </div>
 </section>
