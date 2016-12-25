@@ -2,9 +2,9 @@
     <div class="row row-offcanvas row-offcanvas-left ">
         <hr/>
         <div class="col-xs-12 col-sm-9 hvr-underline-from-left">
-            <img src="{{currentUser.get('pic').url()}}" class="img-responsive hvr-float-shadow marginimg img-rounded"
+            <img src="{{result.get('pic').url()}}" class="img-responsive hvr-float-shadow marginimg img-rounded"
                  width="50%">
-            <h1 class="name">Username: {{currentUser.get('username')}}</h1>
+            <h1 class="name">Username: {{result.get('username')}}</h1>
         </div>
     </div>
 </div>
@@ -19,7 +19,7 @@
     <div class="col-md-8 col-xs-12 pull-left">
         <h2 wp-cz-control="blocks_content_2_10_text" wp-cz-control-label="Text" wp-cz-control-type="textarea"
             wp-cz-control-section="blocks_content_2_10" wp-cz-theme-mod="blocks_content_2_10_text">Full name:
-            {{currentUser.get('name')}}</h2>
+            {{result.get('name')}}</h2>
     </div>
     <div class="col-md-3 col-xs-12 pull-right">
     </div>
@@ -27,7 +27,7 @@
 <div class="container bg-white border-box hvr-reveal">
     <div class="col-md-8 col-xs-12 pull-left">
         <h2 wp-cz-control="blocks_content_2_10_text" wp-cz-control-label="Text" wp-cz-control-type="textarea"
-            wp-cz-control-section="blocks_content_2_10" wp-cz-theme-mod="blocks_content_2_10_text">Address: <br>{{currentUser.get('address')}}
+            wp-cz-control-section="blocks_content_2_10" wp-cz-theme-mod="blocks_content_2_10_text">Address: <br>{{result.get('address')}}
         </h2>
     </div>
     <div class="col-md-3 col-xs-12 pull-right">
@@ -39,7 +39,7 @@
             wp-cz-control-section="blocks_content_2_10" wp-cz-theme-mod="blocks_content_2_10_text">Bank account
             type: {{accountType.get('name')}}</h2>
     </div>
-    <div class="col-md-3 col-xs-12 pull-right">
+    <div class="col-md-3 col-xs-12 pull-right" ng-show="result.id==currentUser.id">
         <a href=".#!/editProfile" class="btn btn-lg btn-info btn-block">Edit Profile</a>
     </div>
 </div>

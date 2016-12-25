@@ -16,6 +16,9 @@ app.config(function ($routeProvider) {
     }).when("/profile", {
         templateUrl: "views/profile.html",
         controller: "profileCtrl"
+    }).when("/profile/:id", {
+        templateUrl: "views/profile.html",
+        controller: "profileCtrl"
     }).when("/editProfile", {
         templateUrl: "views/editProfile.html",
         controller: "editProfileCtrl"
@@ -35,7 +38,8 @@ app.config(function ($routeProvider) {
         templateUrl: "views/login.html",
         controller: "loginCtrl"
     }).otherwise({
-        templateUrl: "views/404.html"
+        templateUrl: "views/404.html",
+        controller: "notFoundCtrl"
     });
 });
 app.run(function ($rootScope, $location) {
@@ -68,7 +72,20 @@ app.controller('indexCtrl', function ($scope, $location, $rootScope, $routeParam
 app.controller('accountsCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'accounts';
 
-    hideSpinner();
+    var query = new Parse.Query(Parse.User);
+    query.equalTo("parent", currentUser());
+    query.find({
+        success: function (results) {
+            $scope.results = angular.copy(results);
+            console.log(results);
+            $scope.$apply();
+            hideSpinner();
+        },
+        error: function (results, error) {
+            hideSpinner();
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
 });
 app.controller('loansCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'loans';
@@ -87,13 +104,14 @@ app.controller('profileCtrl', function ($scope, $location, $rootScope, $routePar
 
     var query = new Parse.Query(Parse.User);
     query.include('accountType');
-    query.get(currentUser().id, {
-        success: function (user) {
-            $scope.accountType = user.get('accountType');
+    query.get(($routeParams.id) ? $routeParams.id : (currentUser()) ? currentUser().id : null, {
+        success: function (result) {
+            $scope.result = result;
+            $scope.accountType = result.get('accountType');
             $scope.$apply();
             hideSpinner();
         },
-        error: function (user, error) {
+        error: function (result, error) {
             hideSpinner();
             alert("Error: " + error.code + " " + error.message);
         }
@@ -208,8 +226,8 @@ app.controller('newTransferCtrl', function ($scope, $location, $rootScope, $rout
         var query = new Parse.Query(Parse.User);
         query.equalTo("username", $scope.to);
         query.find({
-            success: function (result) {
-                if (result.length == 0) {
+            success: function (results) {
+                if (results.length == 0) {
                     alert("To Not Found");
                     hideSpinner();
                     return;
@@ -218,7 +236,7 @@ app.controller('newTransferCtrl', function ($scope, $location, $rootScope, $rout
                 var Transfers = Parse.Object.extend("Transfers");
                 var transfer = new Transfers();
                 transfer.set('from', currentUser());
-                transfer.set('to', result[0]);
+                transfer.set('to', results[0]);
                 transfer.set('amount', $scope.amount);
                 transfer.set('reason', $scope.reason);
                 transfer.save({
@@ -306,19 +324,53 @@ app.controller('signupCtrl', function ($scope, $location, $rootScope, $routePara
             var parseFile = new Parse.File(name, file);
             user.set('pic', parseFile);
         }
+
         showSpinner();
-        user.signUp(null, {
-            success: function (user) {
-                location.reload();
-            },
-            error: function (user, error) {
-                hideSpinner();
-                alert("Error: " + error.code + " " + error.message);
-            }
-        });
+        if ($scope.parent) {
+            var query = new Parse.Query(Parse.User);
+            query.equalTo("username", $scope.parent);
+            query.find({
+                success: function (results) {
+                    if (results.length == 0) {
+                        alert("Parent Not Found");
+                        hideSpinner();
+                        return;
+                    }
+                    user.set('parent', results[0]);
+                    user.signUp(null, {
+                        success: function (result) {
+                            location.reload();
+                        },
+                        error: function (result, error) {
+                            hideSpinner();
+                            alert("Error: " + error.code + " " + error.message);
+                        }
+                    });
+                },
+                error: function (results, error) {
+                    hideSpinner();
+                    alert("Error: " + error.code + " " + error.message);
+                }
+            });
+        } else {
+            user.signUp(null, {
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result, error) {
+                    hideSpinner();
+                    alert("Error: " + error.code + " " + error.message);
+                }
+            });
+        }
     };
 });
 
+app.controller('notFoundCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'Not Found';
+
+    hideSpinner();
+});
 function hideSpinner() {
     $('#divLoading').fadeOut(250, function () {
         $('#divLoading').removeClass('show');

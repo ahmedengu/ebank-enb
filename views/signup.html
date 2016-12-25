@@ -8,6 +8,7 @@
         <input type="password" placeholder="Password" ng-model="password">
         <select ng-options="accounts.indexOf(account) as account.get
          ('name') for account in accounts" ng-model="accountType"></select>
+        <input type="text" placeholder="Parent(username)" ng-model="parent">
         <input type="submit" value="Signup">
     </form>
     <a href=".#!/login">login</a>
