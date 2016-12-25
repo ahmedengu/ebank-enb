@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row row-offcanvas row-offcanvas-left ">
+        <hr/>
+        <div class="col-xs-12 col-sm-9 hvr-underline-from-left">
+            <img src="profits.png" class="img-responsive imga hvr-float-shadow">
+            <h1 class="h1">Credit Cards</h1>
+        </div>
+    </div>
+    <a href=".#!/newCreditCard">new Credit Card</a>
+</div>
+<div class="copyright-bar bg-black">
+    <div class="container" ng-show="!results.length">
+        <h1 class="h2 white">Nothing to show</h1>
+    </div>
+    <div class="container" ng-repeat="result in results">
+        <h1 class="h2 white">{{result.get('title')}}</h1>
+    </div>
+</div>

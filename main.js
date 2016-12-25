@@ -43,6 +43,12 @@ app.config(function ($routeProvider) {
     }).when("/login", {
         templateUrl: "views/login.html",
         controller: "loginCtrl"
+    }).when("/creditCards", {
+        templateUrl: "views/creditCards.html",
+        controller: "creditCardsCtrl"
+    }).when("/newCreditCard", {
+        templateUrl: "views/newCreditCard.html",
+        controller: "newCreditCardCtrl"
     }).otherwise({
         templateUrl: "views/404.html",
         controller: "notFoundCtrl"
@@ -164,6 +170,7 @@ app.controller('newPaymentCtrl', function ($scope, $location, $rootScope, $route
         payment.set('user', currentUser());
         payment.set('amount', $scope.amount);
         payment.set('for', $scope.for);
+        showSpinner();
         payment.save({
             success: function (result) {
                 hideSpinner();
@@ -445,11 +452,57 @@ app.controller('signupCtrl', function ($scope, $location, $rootScope, $routePara
         }
     };
 });
-
 app.controller('notFoundCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'Not Found';
 
     hideSpinner();
+});
+app.controller('creditCardsCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'Credit Cards';
+
+    var CreditCards = Parse.Object.extend("CreditCards");
+    var query = new Parse.Query(CreditCards);
+    query.equalTo('user', currentUser());
+    query.find({
+        success: function (results) {
+            $scope.results = angular.copy(results);
+            $scope.$apply();
+            hideSpinner();
+        },
+        error: function (error) {
+            alert("Error: " + error.code + " " + error.message);
+            hideSpinner();
+        }
+    });
+});
+app.controller('newCreditCardCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'New Credit Card';
+    hideSpinner();
+    $scope.month = '01';
+    $scope.year = '13';
+    $scope.addCard = function () {
+        var CreditCards = Parse.Object.extend("CreditCards");
+        var creditCard = new CreditCards();
+        creditCard.set('user', currentUser());
+        creditCard.set('title', $scope.cardtitle);
+        creditCard.set('name', $scope.name);
+        creditCard.set('number', $scope.number);
+        creditCard.set('month', $scope.month);
+        creditCard.set('year', $scope.year);
+        creditCard.set('cvv', $scope.cvv);
+        showSpinner();
+        creditCard.save({
+            success: function (result) {
+                hideSpinner();
+                $location.path('/creditCards');
+                $scope.$apply();
+            },
+            error: function (result, error) {
+                hideSpinner();
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
 });
 function hideSpinner() {
     $('#divLoading').fadeOut(250, function () {
