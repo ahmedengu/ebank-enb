@@ -10,6 +10,9 @@ app.config(function ($routeProvider) {
     }).when("/loans", {
         templateUrl: "views/loans.html",
         controller: "loansCtrl"
+    }).when("/newLoan", {
+        templateUrl: "views/newLoan.html",
+        controller: "newLoanCtrl"
     }).when("/payments", {
         templateUrl: "views/payments.html",
         controller: "paymentsCtrl"
@@ -93,8 +96,47 @@ app.controller('accountsCtrl', function ($scope, $location, $rootScope, $routePa
 app.controller('loansCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'loans';
 
-    hideSpinner();
+    var Loans = Parse.Object.extend("Loans");
+    var query = new Parse.Query(Loans);
+    query.equalTo('user', currentUser());
+    query.find({
+        success: function (results) {
+            $scope.results = angular.copy(results);
+            $scope.$apply();
+            hideSpinner();
+        },
+        error: function (error) {
+            alert("Error: " + error.code + " " + error.message);
+            hideSpinner();
+        }
+    });
 });
+
+app.controller('newLoanCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'New Loan';
+    hideSpinner();
+    $scope.request = function () {
+        var Loans = Parse.Object.extend("Loans");
+        var loan = new Loans();
+        loan.set('user', currentUser());
+        loan.set('amount', $scope.amount);
+        loan.set('reason', $scope.reason);
+        loan.set('state', 'Pending');
+        showSpinner();
+        loan.save({
+            success: function (result) {
+                hideSpinner();
+                $location.path('/loans');
+                $scope.$apply();
+            },
+            error: function (result, error) {
+                hideSpinner();
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
+});
+
 app.controller('paymentsCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'payments';
 
