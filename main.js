@@ -13,6 +13,9 @@ app.config(function ($routeProvider) {
     }).when("/payments", {
         templateUrl: "views/payments.html",
         controller: "paymentsCtrl"
+    }).when("/newPayment", {
+        templateUrl: "views/newPayment.html",
+        controller: "newPaymentCtrl"
     }).when("/profile", {
         templateUrl: "views/profile.html",
         controller: "profileCtrl"
@@ -95,7 +98,42 @@ app.controller('loansCtrl', function ($scope, $location, $rootScope, $routeParam
 app.controller('paymentsCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'payments';
 
+    var Payments = Parse.Object.extend("Payments");
+    var query = new Parse.Query(Payments);
+    query.equalTo('user', currentUser());
+    query.find({
+        success: function (results) {
+            $scope.results = angular.copy(results);
+            $scope.$apply();
+            hideSpinner();
+        },
+        error: function (error) {
+            alert("Error: " + error.code + " " + error.message);
+            hideSpinner();
+        }
+    });
+});
+app.controller('newPaymentCtrl', function ($scope, $location, $rootScope, $routeParams) {
+    $rootScope.title = 'New Payment';
     hideSpinner();
+    $scope.pay = function () {
+        var Payments = Parse.Object.extend("Payments");
+        var payment = new Payments();
+        payment.set('user', currentUser());
+        payment.set('amount', $scope.amount);
+        payment.set('for', $scope.for);
+        payment.save({
+            success: function (result) {
+                hideSpinner();
+                $location.path('/payments');
+                $scope.$apply();
+            },
+            error: function (result, error) {
+                hideSpinner();
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
 });
 app.controller('profileCtrl', function ($scope, $location, $rootScope, $routeParams) {
     $rootScope.title = 'profile';

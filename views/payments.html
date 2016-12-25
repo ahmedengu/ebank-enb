@@ -6,33 +6,17 @@
             <h1 class="h1">Payments</h1>
         </div>
     </div>
+    <a href=".#!/newPayment">new Payment</a>
 </div>
-<div class="copyright-bar bg-black" wp-cz-section="blocks_copyright_1" wp-cz-section-title="Copyright 1">
+<div class="copyright-bar bg-black">
     <div class="container">
-        <h1><h1 class="white log">Payments Log for 1,March 2016</h1></h1>
+        <h1 class="white log">Payments Log</h1>
     </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
+    <div class="container" ng-show="!results.length">
+        <h1 class="h2 white">Nothing to show</h1>
     </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
-    </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
-    </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
-    </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
-    </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
-    </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
-    </div>
-    <div class="container">
-        <h1><h1 class="h2 white">20$ for Electrical Corp.</h1></h1>
+    <div class="container" ng-repeat="result in results">
+        <h1 class="h2 white">{{result.get('amount')}}$ for {{result.get('for')}}&nbsp;&nbsp;at
+            {{result.get('createdAt').toUTCString()}}</h1>
     </div>
 </div>
