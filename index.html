@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>ENB</title>
+    <title ng-bind="title">ENB</title>
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <!--[if lt IE 9]>
@@ -25,11 +25,10 @@
 </head>
 <body class="b">
 <div id="divLoading" class="show"></div>
-<section class="content-block content-2-3 bg-transparent" wp-cz-section="blocks_content_2_3"
-         wp-cz-section-title="Content 2-3">
+<section class="content-block content-2-3 bg-transparent">
     <div class="container">
         <div class="col-sm-7 pull-left">
-            <img src="Emirates_NBD_logo.png" class="img-responsive imgl" data-target="index.html">
+            <a href=".#!/"><img src="Emirates_NBD_logo.png" class="img-responsive imgl"></a>
             <span class="input-group-btn span"><a class="btn btn-primary btnl" type="button"
                                                   ng-click="logout()" ng-show="currentUser">Logout</a></span>
         </div>
